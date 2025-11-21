@@ -4,7 +4,8 @@ int main (int ac, char **av)
 {
 	std::string line;
 	std::string date;
-	std::map<std::string, double>occurences;
+	std::string value;
+	// std::map<std::string, double>occurences;
 	if (ac < 2)
 	{
 		std::cerr << "Error: could not open file." << std::endl;
@@ -18,14 +19,11 @@ int main (int ac, char **av)
 	}
 	while (file >> line)
 	{
-		int i = 0;
-		while(!line.find("|"))
-		{
-			date[i] = line[i]; 
-			i++;
-		}
-		occurences[date];
+		size_t pos = line.find(",");
+		date = line.substr(0, pos);
+		value = line.substr(pos + 1);
+		std::cout <<date << std::endl;
+		std::cout <<value << std::endl;
 	}
-	std::cout << occurences["2022-03-29,47115.93"] << std::endl;	
 	return (0);
 }
