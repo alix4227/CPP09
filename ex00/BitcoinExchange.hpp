@@ -13,5 +13,6 @@
 #include <fstream>
 #include <iterator>
 #include <map>
+#include <sstream>
 
 #endif
