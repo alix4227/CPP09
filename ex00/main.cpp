@@ -1,10 +1,11 @@
 #include "BitcoinExchange.hpp"
 #include <exception>
 
-bool check_date(std::string str)
+bool check_date(std::string date)
 { 
+	std::string str = date.substr(0, 10);
 	if (str.length() != 10 || str[4] != '-' || str[7] != '-')
-        return false;
+		return false;
 	std::istringstream check(str);
 	int year;
 	check >> year;
@@ -34,6 +35,9 @@ bool check_date(std::string str)
 }
 bool check_value(std::string str)
 {
+	size_t i = 0;
+	while (std::isspace(str[i]))
+		i++;
 	std::istringstream check(str);
 	float value;
 	check >> value;
@@ -47,7 +51,7 @@ int main (int ac, char **av)
 	std::string date;
 	std::string value;
 	// std::map<std::string, double>occurences;
-	if (ac < 2)
+	if (ac != 2)
 	{
 		std::cerr << "Error: could not open file." << std::endl;
 		return (0);
@@ -58,17 +62,28 @@ int main (int ac, char **av)
 		std::cerr << "Error: could not open file." << std::endl;	
 		return (0);
 	}
-	while (file >> line)
+	getline(file, line);
+	while (getline(file, line))
 	{
+		if (line == "")
+			continue ;
 		size_t pos = line.find("|");
 		if (pos == std::string::npos)
+		{
 			std::cout << "Error: could not open file." << std::endl;
-		date = line.substr(0, pos);
-		if (!check_date(date))
+			return (0);
+		}
+		if (!check_date(line))
+		{
 			std::cout << "Error: could not open file." << std::endl;
+			return (0);
+		}
 		value = line.substr(pos + 1);
 		if (!check_value(value))
+		{
 			std::cout << "Error: could not open file." << std::endl;
+			return (0);
+		}
 	}
 	return (0);
 }
