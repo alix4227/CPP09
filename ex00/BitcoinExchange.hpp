@@ -15,4 +15,18 @@
 #include <map>
 #include <sstream>
 
+class Exchange
+{
+	public:
+	Exchange();
+	~Exchange();
+	std::map<std::string, float>::iterator begin() ;
+    std::map<std::string, float>::iterator end();
+	void fillContainer();
+	void findDate(std::string date, float valeur);
+
+	private:
+	std::map<std::string, float>data;
+	float _rate;
+};
 #endif

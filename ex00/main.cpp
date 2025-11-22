@@ -1,9 +1,8 @@
 #include "BitcoinExchange.hpp"
 #include <exception>
 
-bool check_date(std::string date)
+bool check_date(std::string str)
 { 
-	std::string str = date.substr(0, 10);
 	if (str.length() != 10 || str[4] != '-' || str[7] != '-')
 		return false;
 	std::istringstream check(str);
@@ -35,9 +34,6 @@ bool check_date(std::string date)
 }
 bool check_value(std::string str)
 {
-	size_t i = 0;
-	while (std::isspace(str[i]))
-		i++;
 	std::istringstream check(str);
 	float value;
 	check >> value;
@@ -47,10 +43,11 @@ bool check_value(std::string str)
 }
 int main (int ac, char **av)
 {
+	Exchange rate;
+	rate.fillContainer();
 	std::string line;
 	std::string date;
 	std::string value;
-	// std::map<std::string, double>occurences;
 	if (ac != 2)
 	{
 		std::cerr << "Error: could not open file." << std::endl;
@@ -73,7 +70,8 @@ int main (int ac, char **av)
 			std::cout << "Error: could not open file." << std::endl;
 			return (0);
 		}
-		if (!check_date(line))
+		date = line.substr(0, 10);
+		if (!check_date(date))
 		{
 			std::cout << "Error: could not open file." << std::endl;
 			return (0);
@@ -84,6 +82,10 @@ int main (int ac, char **av)
 			std::cout << "Error: could not open file." << std::endl;
 			return (0);
 		}
+		std::istringstream check(value);
+		float valeur;
+		check >> valeur;
+		rate.findDate(date, valeur);
 	}
 	return (0);
 }
