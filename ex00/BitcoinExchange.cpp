@@ -1,12 +1,8 @@
 #include "BitcoinExchange.hpp"
 
-Exchange::Exchange() {};
+Exchange::Exchange(){};
 
 Exchange::~Exchange(){};
-
-std::map<std::string, float>::iterator Exchange::begin() { return data.begin();}
-
-std::map<std::string, float>::iterator Exchange::end() { return data.end();}
 
 void Exchange::fillContainer()
 {
@@ -41,24 +37,12 @@ void Exchange::fillContainer()
 	}
 }
 
-void Exchange::findDate(std::string date, float valeur)
+void Exchange::findRate(std::string date, float valeur)
 {
-	std::map<std::string, float>::iterator it;
-	std::map<std::string, float>::iterator ite = end();
-
-	for (it = begin(); it != ite; ++it)
-	{
-		if (date <= it->first)
-		{
-			_rate = valeur * data[it->first];
-			std::cout << _rate << std::endl;
-			return ;
-		}
-		else
-		{
-			_rate = valeur * data[it->first];
-			std::cout << _rate << std::endl;
-			return ;
-		}
-	}
+	if (date.empty())
+		return ;
+	std::map<std::string, float>::iterator it = data.upper_bound(date);
+	--it;
+	_rate = valeur * it->second;
+	std::cout << date << " => " << "valeur "<< "= " << _rate << std::endl;
 }

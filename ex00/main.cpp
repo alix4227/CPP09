@@ -1,6 +1,19 @@
 #include "BitcoinExchange.hpp"
 #include <exception>
 
+bool isAllSpaces(std::string str)
+{
+	size_t i = 0;
+	while (isspace(str[i]))
+	{
+		if (isspace(str[i]))
+			i++;
+	}
+	if (i == str.size())
+		return (true);
+	return (false);
+}
+
 bool check_date(std::string str)
 { 
 	if (str.length() != 10 || str[4] != '-' || str[7] != '-')
@@ -32,15 +45,28 @@ bool check_date(std::string str)
 		return (false);
 	return (true);
 }
+
 bool check_value(std::string str)
 {
+	if (str.empty() || isAllSpaces(str))
+	{
+		std::cout << "Error: Bad input" << std::endl;
+		return (false);
+	}
 	std::istringstream check(str);
 	float value;
 	check >> value;
 	if (value < 0 || value > 1000)
-			return (false);
+	{
+		if (value < 0)
+			std::cout << "Error: Not a positive number" << std::endl;
+		else
+			std::cout << "Error: Too large a number" << std::endl;
+		return (false);
+	}	
 	return(!check.fail() && check.eof());
 }
+
 int main (int ac, char **av)
 {
 	Exchange rate;
@@ -62,7 +88,7 @@ int main (int ac, char **av)
 	getline(file, line);
 	while (getline(file, line))
 	{
-		if (line == "")
+		if (line.empty())
 			continue ;
 		size_t pos = line.find("|");
 		if (pos == std::string::npos)
@@ -78,14 +104,11 @@ int main (int ac, char **av)
 		}
 		value = line.substr(pos + 1);
 		if (!check_value(value))
-		{
-			std::cout << "Error: could not open file." << std::endl;
-			return (0);
-		}
+			continue ;
 		std::istringstream check(value);
 		float valeur;
 		check >> valeur;
-		rate.findDate(date, valeur);
+		rate.findRate(date, valeur);
 	}
 	return (0);
 }
