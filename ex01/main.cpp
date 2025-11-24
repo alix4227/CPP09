@@ -10,6 +10,7 @@ int main (int ac , char **av)
 	size_t i = 0;
 	RPN<int>rpn;
 	int result;
+	int num;
 	if (ac != 2)
 		return (0);
 	std::string numbers = av[1];
@@ -22,7 +23,13 @@ int main (int ac , char **av)
 		{
 			if (!temp.empty())
 			{
-				rpn.push(atoi(temp.c_str()));
+				num = atoi(temp.c_str());
+				if (num > 9)
+				{
+					std::cout << "Error: number out of range" << std::endl;
+					return (0);
+				}
+				rpn.push(num);
 				temp = "";
 			}
 		}
@@ -72,13 +79,5 @@ int main (int ac , char **av)
 		std::cout << *it << std::endl;
 		++it;
 	}
-	// if (!temp.empty())
-	// 	rpn.push_back(atoi(temp.c_str()));
-	// bool checkNumbersRange = (std::find_if(rpn.begin(), rpn.end(), isOutOfRange) == rpn.end());
-	// if (!checkNumbersRange)
-	// {
-	// 	std::cout << "Error: wrong numbers" << std::endl;
-	// 	return (0);
-	// }
-
+ 	return (0);
 }
