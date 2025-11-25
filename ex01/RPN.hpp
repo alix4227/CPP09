@@ -15,29 +15,22 @@
 #include <map>
 #include <sstream>
 
-template <typename T>
-class RPN: public std::stack<T>
+class RPN: public std::stack<int>
 {
 	public:
 	
-	typedef typename std::stack<T>::container_type::iterator iterator;
+	typedef typename std::stack<int>::container_type::iterator iterator;
 	iterator begin();
 	iterator end();
+	int getResult(std::string temp);
+	bool isNumbers(std::string temp);
+	bool isOperator(std::string temp);
+	int fillStack(std::string temp);
+	void printResult(void);
 
 	private:
-	
-	
+	int _result;
+	int _num;
 };
 
-template <typename T>
-typename std::stack<T>::container_type::iterator RPN<T>::begin()
-{
-	return (this->c.begin());
-}
-template <typename T>
-typename std::stack<T>::container_type::iterator RPN<T>::end()
-{
-	
-	return (this->c.end());
-}
 #endif
