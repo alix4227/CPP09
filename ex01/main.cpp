@@ -1,4 +1,14 @@
 #include "RPN.hpp"
+
+bool isNumbers(std::string temp)
+{
+	std::istringstream check(temp);
+	int num;
+	check >> num;
+	if (check.fail())
+		return (false);
+	return (true);
+}
 bool isOutOfRange(int i)
 {
     if ( i < 0 || i > 9)
@@ -13,27 +23,21 @@ int main (int ac , char **av)
 	int num;
 	if (ac != 2)
 		return (0);
-	std::string numbers = av[1];
+	std::istringstream s(av[1]);
 	std::string temp;
-	while (i < numbers.size())
+	while (s >> temp)
 	{
-		if (isdigit(numbers[i]))
-			temp += numbers[i];
-		else if (isspace(numbers[i]))
+		if (isNumbers(temp))
 		{
-			if (!temp.empty())
+			num = atoi(temp.c_str());
+			if (num > 9)
 			{
-				num = atoi(temp.c_str());
-				if (num > 9)
-				{
-					std::cout << "Error: number out of range" << std::endl;
-					return (0);
-				}
-				rpn.push(num);
-				temp = "";
+				std::cout << "Error: number out of range" << std::endl;
+				return (0);
 			}
+			rpn.push(num);
 		}
-		else if (numbers[i] == '+')
+		else if (temp[0] == '+' && !rpn.empty())
 		{
 			int droite = rpn.top();
 			rpn.pop();
@@ -41,7 +45,7 @@ int main (int ac , char **av)
 			rpn.pop();
 			rpn.push(result);
 		}
-		else if (numbers[i] == '-')
+		else if (temp[0] == '-' && !rpn.empty())
 		{
 			int droite = rpn.top();
 			rpn.pop();
@@ -49,7 +53,7 @@ int main (int ac , char **av)
 			rpn.pop();
 			rpn.push(result);
 		}	
-		else if (numbers[i] == '/')
+		else if (temp[0] == '/' && !rpn.empty())
 		{
 			int droite = rpn.top();
 			rpn.pop();
@@ -57,13 +61,18 @@ int main (int ac , char **av)
 			rpn.pop();
 			rpn.push(result);
 		}
-		else if (numbers[i] == '*')
+		else if (temp[0] == '*' && !rpn.empty())
 		{
 			int droite = rpn.top();
 			rpn.pop();
 			result =  rpn.top() * droite;
 			rpn.pop();
 			rpn.push(result);
+		}
+		else 
+		{
+			std::cout << "Error: bad input" << std::endl;
+			return (0);
 		}
 		i++;
 	}
@@ -79,5 +88,5 @@ int main (int ac , char **av)
 		std::cout << *it << std::endl;
 		++it;
 	}
- 	return (0);
+	return (0);
 }
