@@ -8,9 +8,9 @@ int main (int ac , char **av)
 		std::cout << "Error: No input" << std::endl;
 		return (0);
 	}
-	std::istringstream s(av[1]);
+	std::istringstream input(av[1]);
 	std::string temp;
-	while (s >> temp)
+	while (input >> temp)
 	{
 		if (rpn.isNumbers(temp))
 		{
