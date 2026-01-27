@@ -1,5 +1,5 @@
 #ifndef PMERGEME_HPP
-#define PNERGEME_HPP
+#define PMERGEME_HPP
 
 struct Pair
 {
