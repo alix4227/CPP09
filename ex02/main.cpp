@@ -35,6 +35,11 @@ void sort_d(std::vector<int>& B, std::vector<int>&index)
 	}
 }
 
+bool comparePairs(Pair const& a, Pair const& b)
+{
+	return (a.greater <b.greater);
+}
+
 void	getJacobstalIndexes(std::vector<int>&index, int size)
 {
 	int i = 2;
@@ -71,15 +76,8 @@ void	getJacobstalIndexes(std::vector<int>&index, int size)
 	// 	e++;
 	// }
 }
-
-bool comparePairs(Pair const& a, Pair const& b)
+std::vector<int> mergeInsertionSort(std::vector<int>&nb)
 {
-	return (a.greater <b.greater);
-}
-
-int	main(int ac, char**av)
-{
-	int i = 1;
 	int orphan = 0;
 	std::vector<Pair>A;
 	std::vector<int>smaller_chain;
@@ -88,14 +86,7 @@ int	main(int ac, char**av)
 	std::vector<int>index;
 	size_t j = 0;
 	// size_t e = 0;
-	std::vector<int>nb;
 	bool hasOrphan = false;
-
-	while (i < ac)
-	{
-		nb.push_back(std::atoi(av[i]));
-		i++;
-	}
 	while (j < nb.size())
 	{
 		tmp.clear();
@@ -117,7 +108,7 @@ int	main(int ac, char**av)
 			j++;
 		}
 	}
-	std::sort(A.begin(), A.end(), comparePairs);
+	mergeInsertionSort(A);
 	j = 0;
 	while (j < A.size())
 	{
@@ -157,10 +148,23 @@ int	main(int ac, char**av)
 		int pos = findPosition(main_chain, orphan, main_chain.size());
 		main_chain.insert(main_chain.begin() + pos, orphan);
 	}
-	j = 0;
-	while (j < main_chain.size())
+	return (main_chain);
+}
+int	main(int ac, char**av)
+{
+	int i = 1;
+	
+	std::vector<int>nb;
+	while (i < ac)
 	{
-		std::cout << main_chain[j] << std::endl;
-		j++;
+		nb.push_back(std::atoi(av[i]));
+		i++;
+	}
+	std::vector<int>print_chain(mergeInsertionSort(nb));
+	i = 0;
+	while (i < print_chain.size())
+	{
+		std::cout << print_chain[i] << std::endl;
+		i++;
 	}
 }
