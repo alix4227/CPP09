@@ -8,21 +8,61 @@
 #include <utility>
 #include "PmergeMe.hpp"
 
-// int findPosition(vector<int>const& chaine, int valeurPetite, int positionValeurGrande)
-// {
-// 	int gauche = 0;
-// 	int droite = positionValeurGrande;
+int findPosition(std::vector<int>const& main_chain, int smaller, int pos_greater)
+{
+	int gauche = 0;
+	int droite = pos_greater;
 
-// 	while (gauche < droite)
-// 	{
-// 		int milieu = gauche + (droite - gauche) / 2;
-// 		if (chaine[milieu] < valeurPetite)
-// 			gauche = milieu + 1;
-// 		else 
-// 			droite = milieu;
-// 	}
-// 	return (gauche);
-// }
+	while (gauche < droite)
+	{
+		int milieu = gauche + (droite - gauche) / 2;
+		if (main_chain[milieu] < smaller)
+			gauche = milieu + 1;
+		else 
+			droite = milieu;
+	}
+	return (gauche);
+}
+
+void sort_d(std::vector<int>& B, std::vector<int>&index)
+{
+	size_t i = 0;
+	std::sort(B.begin(), B.end(), std::greater<int>());
+	while (i < B.size())
+	{
+		index.push_back(B[i]);
+		i++;
+	}
+}
+
+void	getJacobstalIndexes(std::vector<int>&index, int size)
+{
+	int i = 2;
+	size_t j = 0;
+	std::vector<int>A;
+	std::vector<int>B;
+	index.push_back(1);
+	A.push_back(0);
+	A.push_back(1);
+	while (A.back() < size)
+	{
+		A.push_back(A[i - 1] + (A[i - 2] * 2));
+		i++;
+	}
+	j = 2;
+	while (j < A.size())
+	{
+		i = A[j];
+		while (A[j + 1] && i < A[j + 1] && i < size)
+		{
+			B.push_back(i + 1);
+			i++;
+		}
+		sort_d(B, index);
+		B.clear();
+		j++;
+	}
+}
 
 bool comparePairs(Pair const& a, Pair const& b)
 {
@@ -34,10 +74,11 @@ int	main(int ac, char**av)
 	int i = 1;
 	int orphan = 0;
 	std::vector<Pair>A;
-	std::vector<Pair>main_chain;
+	std::vector<int>main_chain;
 	std::vector<int>smaller_chain;
 	std::vector<int>greater_chain;
 	std::vector<int>tmp;
+	std::vector<int>index;
 	size_t j = 0;
 	std::vector<int>nb;
 
@@ -75,26 +116,28 @@ int	main(int ac, char**av)
 		smaller_chain.push_back(A[j].smaller);
 		j++;
 	}
+	getJacobstalIndexes(index, smaller_chain.size() - 1);
 	j = 0;
 	while (j < smaller_chain.size())
 	{
 		int value = smaller_chain[index[j]];
-		// chercher position de l'autre element de la paire dans main_chain(greater_chain[index[j]])
+		int greater_value = greater_chain[index[j]];
+		std::vector<int>::iterator it = find(main_chain.begin(), main_chain.end(), greater_value);
+		int pos_greater = distance(main_chain.begin(), it);
 		int pos = findPosition(main_chain, value, pos_greater);
 		main_chain.insert(main_chain.begin() + pos, value);
 		j++;
 	}
-	j = 0;
-	while (j < greater_chain.size())
+	main_chain.insert(main_chain.begin(), smaller_chain[index[0]]);
+	if (orphan)
 	{
-		std::cout << greater_chain[j] << std::endl;
-		j++;
+		int pos = findPosition(main_chain, orphan, main_chain.size());
+		main_chain.insert(main_chain.begin() + pos, orphan);
 	}
 	j = 0;
-	while (j < B.size())
+	while (j < main_chain.size())
 	{
-		std::cout << B[j] << std::endl;
+		std::cout << main_chain[j] << std::endl;
 		j++;
 	}
-	std::cout << orphan << std::endl;
 }
