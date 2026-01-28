@@ -1,6 +1,6 @@
 #include "PmergeMe.hpp"
 
-int findPosition_deque(std::deque<int>const& main_chain, int smaller, int pos_greater)
+int PmergeMe::findPosition_deque(std::deque<int>const& main_chain, int smaller, int pos_greater)
 {
 	int gauche = 0;
 	int droite = pos_greater;
@@ -16,7 +16,7 @@ int findPosition_deque(std::deque<int>const& main_chain, int smaller, int pos_gr
 	return (gauche);
 }
 
-void sort_d_deque(std::deque<int>& B, std::deque<int>&index)
+void PmergeMe::sort_d_deque(std::deque<int>& B, std::deque<int>&index)
 {
 	size_t i = 0;
 	std::sort(B.begin(), B.end(), std::greater<int>());
@@ -26,13 +26,7 @@ void sort_d_deque(std::deque<int>& B, std::deque<int>&index)
 		i++;
 	}
 }
-
-bool comparePairs_deque(Pair const& a, Pair const& b)
-{
-	return (a.greater <b.greater);
-}
-
-void	getJacobstalIndexes_deque(std::deque<int>&index, int size)
+void	PmergeMe::getJacobstalIndexes_deque(std::deque<int>&index, int size)
 {
 	int i = 2;
 	int k = 0;
@@ -62,7 +56,7 @@ void	getJacobstalIndexes_deque(std::deque<int>&index, int size)
 		j++;
 	}
 }
-std::deque<int> mergeInsertionSort_deque(std::deque<int>&nb)
+std::deque<int> PmergeMe::mergeInsertionSort_deque(std::deque<int>&nb)
 {
 	if (nb.size() <= 1)
 		return (nb);

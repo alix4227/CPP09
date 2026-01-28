@@ -1,6 +1,16 @@
 #include "PmergeMe.hpp"
 
-bool checkNumbers(char* av)
+PmergeMe::PmergeMe(){}
+PmergeMe::~PmergeMe(){}
+PmergeMe::PmergeMe(PmergeMe const& src){
+	(void)src;
+}
+PmergeMe& PmergeMe::operator=(PmergeMe const& src){
+	(void)src;
+	return (*this);
+}
+
+bool PmergeMe::checkNumbers(char* av)
 {
 	unsigned int num;
 	int i = 0;
@@ -20,7 +30,7 @@ bool checkNumbers(char* av)
 	}
 	return (true);
 }
-int findPosition(std::vector<int>const& main_chain, int smaller, int pos_greater)
+int PmergeMe::findPosition(std::vector<int>const& main_chain, int smaller, int pos_greater)
 {
 	int gauche = 0;
 	int droite = pos_greater;
@@ -36,7 +46,7 @@ int findPosition(std::vector<int>const& main_chain, int smaller, int pos_greater
 	return (gauche);
 }
 
-void sort_d(std::vector<int>& B, std::vector<int>&index)
+void PmergeMe::sort_d(std::vector<int>& B, std::vector<int>&index)
 {
 	size_t i = 0;
 	std::sort(B.begin(), B.end(), std::greater<int>());
@@ -52,7 +62,7 @@ bool comparePairs(Pair const& a, Pair const& b)
 	return (a.greater <b.greater);
 }
 
-void	getJacobstalIndexes(std::vector<int>&index, int size)
+void	PmergeMe::getJacobstalIndexes(std::vector<int>&index, int size)
 {
 	int i = 2;
 	int k = 0;
@@ -82,7 +92,7 @@ void	getJacobstalIndexes(std::vector<int>&index, int size)
 		j++;
 	}
 }
-std::vector<int> mergeInsertionSort(std::vector<int>&nb)
+std::vector<int> PmergeMe::mergeInsertionSort(std::vector<int>&nb)
 {
 	if (nb.size() <= 1)
 		return (nb);
