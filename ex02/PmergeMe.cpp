@@ -157,7 +157,7 @@ std::vector<int> mergeInsertionSort(std::vector<int>&nb)
 		main_chain.insert(main_chain.begin(), smaller_chain[0]);
 	std::vector<bool> inserted(smaller_chain.size(), false);
 	inserted[0] = true;
-	j = 1;
+	j = 0;
 	while (j < smaller_chain.size())
 	{
 		if (!inserted[index[j]])

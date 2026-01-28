@@ -32,7 +32,10 @@ int	main(int ac, char**av)
 	clock_t end = clock();
 	double elapse_time = double(end - begin) /CLOCKS_PER_SEC;
 	std::cout << "After:   ";
-	j = 0;
+	if (ac == 2 || ac > 4)
+		j = 0;
+	else
+		j = 1;
 	while (j < print_chain_vector.size())
 	{
 		std::cout << print_chain_vector[j] << " ";
@@ -63,7 +66,10 @@ int	main(int ac, char**av)
 	end = clock();
 	elapse_time = double(end - begin) /CLOCKS_PER_SEC;
 	std::cout << "After:   ";
-	j = 0;
+	if (ac == 2 || ac > 4)
+		j = 0;
+	else
+		j = 1;
 	while (j < print_chain_deque.size())
 	{
 		std::cout << print_chain_deque[j] << " ";
