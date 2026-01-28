@@ -1,6 +1,6 @@
 #include "PmergeMe.hpp"
 
-int findPosition(std::vector<int>const& main_chain, int smaller, int pos_greater)
+int findPosition_deque(std::deque<int>const& main_chain, int smaller, int pos_greater)
 {
 	int gauche = 0;
 	int droite = pos_greater;
@@ -16,7 +16,7 @@ int findPosition(std::vector<int>const& main_chain, int smaller, int pos_greater
 	return (gauche);
 }
 
-void sort_d(std::vector<int>& B, std::vector<int>&index)
+void sort_d_deque(std::deque<int>& B, std::deque<int>&index)
 {
 	size_t i = 0;
 	std::sort(B.begin(), B.end(), std::greater<int>());
@@ -27,18 +27,18 @@ void sort_d(std::vector<int>& B, std::vector<int>&index)
 	}
 }
 
-bool comparePairs(Pair const& a, Pair const& b)
+bool comparePairs_deque(Pair const& a, Pair const& b)
 {
 	return (a.greater <b.greater);
 }
 
-void	getJacobstalIndexes(std::vector<int>&index, int size)
+void	getJacobstalIndexes_deque(std::deque<int>&index, int size)
 {
 	int i = 2;
 	int k = 0;
 	size_t j = 0;
-	std::vector<int>A;
-	std::vector<int>B;
+	std::deque<int>A;
+	std::deque<int>B;
 	index.push_back(1);
 	A.push_back(0);
 	A.push_back(1);
@@ -57,22 +57,22 @@ void	getJacobstalIndexes(std::vector<int>&index, int size)
 			B.push_back(i);
 			i++;
 		}
-		sort_d(B, index);
+		sort_d_deque(B, index);
 		B.clear();
 		j++;
 	}
 }
-std::vector<int> mergeInsertionSort(std::vector<int>&nb)
+std::deque<int> mergeInsertionSort_deque(std::deque<int>&nb)
 {
 	if (nb.size() <= 1)
 		return (nb);
 	int orphan = 0;
-	std::vector<Pair>A;
-	std::vector<Pair>sorted;
-	std::vector<int>smaller_chain;
-	std::vector<int>greater_chain;
-	std::vector<int>tmp;
-	std::vector<int>index;
+	std::deque<Pair>A;
+	std::deque<Pair>sorted;
+	std::deque<int>smaller_chain;
+	std::deque<int>greater_chain;
+	std::deque<int>tmp;
+	std::deque<int>index;
 	size_t j = 0;
 	size_t e = 0;
 	bool hasOrphan = false;
@@ -104,7 +104,7 @@ std::vector<int> mergeInsertionSort(std::vector<int>&nb)
 		smaller_chain.push_back(A[j].smaller);
 		j++;
 	}
-	greater_chain = mergeInsertionSort(greater_chain);
+	greater_chain = mergeInsertionSort_deque(greater_chain);
 	j = 0;
 	while (j < greater_chain.size())
 	{
@@ -131,11 +131,11 @@ std::vector<int> mergeInsertionSort(std::vector<int>&nb)
 		smaller_chain.push_back(A[j].smaller);
 		j++;
 	}
-	getJacobstalIndexes(index, smaller_chain.size() - 1);
-	std::vector<int>main_chain(greater_chain);
+	getJacobstalIndexes_deque(index, smaller_chain.size() - 1);
+	std::deque<int>main_chain(greater_chain);
 	if (!smaller_chain.empty())
 		main_chain.insert(main_chain.begin(), smaller_chain[0]);
-	std::vector<bool> inserted(smaller_chain.size(), false);
+	std::deque<bool> inserted(smaller_chain.size(), false);
 	inserted[0] = true;
 	j = 0;
 	while (j < smaller_chain.size())
@@ -144,9 +144,9 @@ std::vector<int> mergeInsertionSort(std::vector<int>&nb)
 		{
 			int value = smaller_chain[index[j]];
 			int greater_value = greater_chain[index[j]];
-			std::vector<int>::iterator it = find(main_chain.begin(), main_chain.end(), greater_value);
+			std::deque<int>::iterator it = find(main_chain.begin(), main_chain.end(), greater_value);
 			int pos_greater = distance(main_chain.begin(), it);
-			int pos = findPosition(main_chain, value, pos_greater);
+			int pos = findPosition_deque(main_chain, value, pos_greater);
 			main_chain.insert(main_chain.begin() + pos, value);
 			inserted[index[j]] = true;
 		}
@@ -154,7 +154,7 @@ std::vector<int> mergeInsertionSort(std::vector<int>&nb)
 	}
 	if (hasOrphan)
 	{
-		int pos = findPosition(main_chain, orphan, main_chain.size());
+		int pos = findPosition_deque(main_chain, orphan, main_chain.size());
 		main_chain.insert(main_chain.begin() + pos, orphan);
 	}
 	return (main_chain);
