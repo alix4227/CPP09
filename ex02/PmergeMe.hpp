@@ -9,6 +9,7 @@
 #include <deque>
 #include <iostream>
 #include <utility>
+#include <ctime>
 
 struct Pair
 {
@@ -16,6 +17,7 @@ struct Pair
 	int greater;
 };
 
+bool checkNumbers(char* av);
 int findPosition_deque(std::deque<int>const& main_chain, int smaller, int pos_greater);
 void sort_d_deque(std::deque<int>& B, std::deque<int>&index);
 bool comparePairs_deque(Pair const& a, Pair const& b);

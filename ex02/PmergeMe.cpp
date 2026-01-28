@@ -1,5 +1,25 @@
 #include "PmergeMe.hpp"
 
+bool checkNumbers(char* av)
+{
+	unsigned int num;
+	int i = 0;
+	std::stringstream check;
+	check << av;
+	check >> num;
+
+	if (!av || av[0] == '\0')
+		return (false);
+	if (check.fail() || !check.eof())
+		return (false);
+	while (av[i])
+	{
+		if (!isdigit(av[i]))
+			return (false);
+		i++;
+	}
+	return (true);
+}
 int findPosition(std::vector<int>const& main_chain, int smaller, int pos_greater)
 {
 	int gauche = 0;
@@ -137,7 +157,7 @@ std::vector<int> mergeInsertionSort(std::vector<int>&nb)
 		main_chain.insert(main_chain.begin(), smaller_chain[0]);
 	std::vector<bool> inserted(smaller_chain.size(), false);
 	inserted[0] = true;
-	j = 0;
+	j = 1;
 	while (j < smaller_chain.size())
 	{
 		if (!inserted[index[j]])

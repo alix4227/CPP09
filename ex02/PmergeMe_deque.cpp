@@ -137,7 +137,7 @@ std::deque<int> mergeInsertionSort_deque(std::deque<int>&nb)
 		main_chain.insert(main_chain.begin(), smaller_chain[0]);
 	std::deque<bool> inserted(smaller_chain.size(), false);
 	inserted[0] = true;
-	j = 0;
+	j = 1;
 	while (j < smaller_chain.size())
 	{
 		if (!inserted[index[j]])
