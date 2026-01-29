@@ -56,13 +56,9 @@ void printBefore(T const& v)
 }
 template <typename T>
 void printAfter(T const& v, int ac)
-{
+{(void)ac;
 	size_t j = 0;
 	std::cout << "After:   ";
-	if (ac == 2 || ac > 4)
-		j = 0;
-	else
-		j = 1;
 	while (j < v.size())
 	{
 		std::cout << v[j] << " ";

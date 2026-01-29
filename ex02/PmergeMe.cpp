@@ -168,9 +168,9 @@ std::vector<int> PmergeMe::mergeInsertionSort(std::vector<int>&nb)
 	std::vector<bool> inserted(smaller_chain.size(), false);
 	inserted[0] = true;
 	j = 0;
-	while (j < smaller_chain.size())
+	while (j < index.size())
 	{
-		if (!inserted[index[j]])
+		if (index[j] < (int)inserted.size() && !inserted[index[j]])
 		{
 			int value = smaller_chain[index[j]];
 			int greater_value = greater_chain[index[j]];

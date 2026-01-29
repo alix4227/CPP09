@@ -28,7 +28,8 @@ int	main(int ac, char**av)
 	clock_t end = clock();
 	double elapse_time = double(end - begin) /CLOCKS_PER_SEC;
 	printAfter(sorted_vector, ac);
-	std::cout << std::fixed << elapse_time << " us"<< std::endl;
+	std::cout << "Time to process a range of " << ac -1 << " elements with std::vector: " << std::fixed << elapse_time << " us"<< std::endl;
+	std::cout << std::endl;
 
 	i = 1;
 	std::deque<int>n;
@@ -43,6 +44,6 @@ int	main(int ac, char**av)
 	end = clock();
 	elapse_time = double(end - begin) /CLOCKS_PER_SEC;
 	printAfter(print_chain_deque, ac);
-	std::cout << std::fixed << elapse_time << " us" <<std::endl;
+	std::cout << "Time to process a range of " << ac -1 << " elements with std::deque: " << std::fixed << elapse_time << " us"<< std::endl;
 	return (0);
 }
