@@ -45,5 +45,7 @@ int	main(int ac, char**av)
 	elapse_time = double(end - begin) /CLOCKS_PER_SEC;
 	printAfter(print_chain_deque, ac);
 	std::cout << "Time to process a range of " << ac -1 << " elements with std::deque: " << std::fixed << elapse_time << " us"<< std::endl;
+	// std::cout << isSorted(print_chain_deque) << std::endl;
+	// std::cout << isSorted(sorted_vector) << std::endl;
 	return (0);
 }

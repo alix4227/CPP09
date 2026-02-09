@@ -67,4 +67,12 @@ void printAfter(T const& v, int ac)
 	std::cout << std::endl;
 	std::cout << std::endl;;
 }
+// template<typename Container>
+// bool isSorted(const Container& c) {
+//     for (size_t i = 1; i < c.size(); ++i) {
+//         if (c[i] < c[i - 1])
+//             return false;
+//     }
+//     return true;
+// }
 #endif

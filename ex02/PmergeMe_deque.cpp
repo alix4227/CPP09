@@ -16,44 +16,31 @@ int PmergeMe::findPosition_deque(std::deque<int>const& main_chain, int smaller, 
 	return (gauche);
 }
 
-void PmergeMe::sort_d_deque(std::deque<int>& B, std::deque<int>&index)
-{
-	size_t i = 0;
-	std::sort(B.begin(), B.end(), std::greater<int>());
-	while (i < B.size())
-	{
-		index.push_back(B[i]);
-		i++;
-	}
-}
 void	PmergeMe::getJacobstalIndexes_deque(std::deque<int>&index, int size)
 {
-	int i = 2;
-	int k = 0;
-	size_t j = 0;
-	std::deque<int>A;
-	std::deque<int>B;
-	index.push_back(1);
-	A.push_back(0);
-	A.push_back(1);
-	while (k < size)
+	int j = 2;
+	size_t k = 0;
+	std::vector<int>jacobindex;
+	jacobindex.push_back(0);
+	jacobindex.push_back(1);
+	while (jacobindex.back() < size)
 	{
-		A.push_back(A[i - 1] + (A[i - 2] * 2));
-		k++;
-		i++;
-	}
-	j = 2;
-	while (j < A.size() && A[j] <= size)
-	{
-		i = A[j];
-		while ((j + 1) < A.size() && i < A[j + 1] && i <= size)
-		{
-			B.push_back(i);
-			i++;
-		}
-		sort_d_deque(B, index);
-		B.clear();
+		jacobindex.push_back(jacobindex[j - 1] + (jacobindex[j - 2] * 2));
 		j++;
+	}
+	k = 3;
+	index.push_back(1);
+	while (k < jacobindex.size())
+	{
+		size_t begin = jacobindex[k - 1] + 1;
+		size_t end = jacobindex[k];
+		while (end >= begin)
+		{
+			if (end <= (size_t)size)
+				index.push_back(end);
+			end--;
+		}
+		k++;
 	}
 }
 std::deque<int> PmergeMe::mergeInsertionSort_deque(std::deque<int>&nb)
@@ -125,7 +112,7 @@ std::deque<int> PmergeMe::mergeInsertionSort_deque(std::deque<int>&nb)
 		smaller_chain.push_back(A[j].smaller);
 		j++;
 	}
-	getJacobstalIndexes_deque(index, smaller_chain.size() - 1);
+	getJacobstalIndexes_deque(index, smaller_chain.size());
 	std::deque<int>main_chain(greater_chain);
 	if (!smaller_chain.empty())
 		main_chain.insert(main_chain.begin(), smaller_chain[0]);

@@ -74,14 +74,9 @@ void	PmergeMe::getJacobstalIndexes(std::vector<int>&index, int size)
 		jacobindex.push_back(jacobindex[j - 1] + (jacobindex[j - 2] * 2));
 		j++;
 	}
-	while (k < jacobindex.size())
-	{
-		std::cout << jacobindex[k] << " ";
-		k++;
-	}
 	k = 3;
 	index.push_back(1);
-	while (k < jacobindex.size() && jacobindex[k - 1] < size)
+	while (k < jacobindex.size())
 	{
 		size_t begin = jacobindex[k - 1] + 1;
 		size_t end = jacobindex[k];
@@ -93,12 +88,6 @@ void	PmergeMe::getJacobstalIndexes(std::vector<int>&index, int size)
 		}
 		k++;
 	}
-	// size_t h = 0;
-	// while (h < index.size())
-	// {
-	// 	std::cout << index[h] << " ";
-	// 	h++;
-	// }
 }
 std::vector<int> PmergeMe::mergeInsertionSort(std::vector<int>&nb)
 {
