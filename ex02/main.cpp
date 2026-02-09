@@ -4,7 +4,7 @@ int	main(int ac, char**av)
 {
 	if (ac == 1)
 	{
-		std::cout << "Error: Wrong input" << std::endl;
+		std::cout << "Error: No input" << std::endl;
 		return (1);
 	}
 	int i = 1;

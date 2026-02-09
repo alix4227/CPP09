@@ -46,16 +46,16 @@ int PmergeMe::findPosition(std::vector<int>const& main_chain, int smaller, int p
 	return (gauche);
 }
 
-void PmergeMe::sort_d(std::vector<int>& B, std::vector<int>&index)
-{
-	size_t i = 0;
-	std::sort(B.begin(), B.end(), std::greater<int>());
-	while (i < B.size())
-	{
-		index.push_back(B[i]);
-		i++;
-	}
-}
+// void PmergeMe::sort_d(std::vector<int>& B, std::vector<int>&index)
+// {
+// 	size_t i = 0;
+// 	std::sort(B.begin(), B.end(), std::greater<int>());
+// 	while (i < B.size())
+// 	{
+// 		index.push_back(B[i]);
+// 		i++;
+// 	}
+// }
 
 bool comparePairs(Pair const& a, Pair const& b)
 {
@@ -64,33 +64,41 @@ bool comparePairs(Pair const& a, Pair const& b)
 
 void	PmergeMe::getJacobstalIndexes(std::vector<int>&index, int size)
 {
-	int i = 2;
-	int k = 0;
-	size_t j = 0;
-	std::vector<int>A;
-	std::vector<int>B;
-	index.push_back(1);
-	A.push_back(0);
-	A.push_back(1);
-	while (k < size)
+	int j = 2;
+	size_t k = 0;
+	std::vector<int>jacobindex;
+	jacobindex.push_back(0);
+	jacobindex.push_back(1);
+	while (jacobindex.back() < size)
 	{
-		A.push_back(A[i - 1] + (A[i - 2] * 2));
-		k++;
-		i++;
-	}
-	j = 2;
-	while (j < A.size() && A[j] <= size)
-	{
-		i = A[j];
-		while ((j + 1) < A.size() && i < A[j + 1] && i <= size)
-		{
-			B.push_back(i);
-			i++;
-		}
-		sort_d(B, index);
-		B.clear();
+		jacobindex.push_back(jacobindex[j - 1] + (jacobindex[j - 2] * 2));
 		j++;
 	}
+	while (k < jacobindex.size())
+	{
+		std::cout << jacobindex[k] << " ";
+		k++;
+	}
+	k = 3;
+	index.push_back(1);
+	while (k < jacobindex.size() && jacobindex[k - 1] < size)
+	{
+		size_t begin = jacobindex[k - 1] + 1;
+		size_t end = jacobindex[k];
+		while (end >= begin)
+		{
+			if (end <= (size_t)size)
+				index.push_back(end);
+			end--;
+		}
+		k++;
+	}
+	// size_t h = 0;
+	// while (h < index.size())
+	// {
+	// 	std::cout << index[h] << " ";
+	// 	h++;
+	// }
 }
 std::vector<int> PmergeMe::mergeInsertionSort(std::vector<int>&nb)
 {
@@ -161,7 +169,7 @@ std::vector<int> PmergeMe::mergeInsertionSort(std::vector<int>&nb)
 		smaller_chain.push_back(A[j].smaller);
 		j++;
 	}
-	getJacobstalIndexes(index, smaller_chain.size() - 1);
+	getJacobstalIndexes(index, smaller_chain.size());
 	std::vector<int>main_chain(greater_chain);
 	if (!smaller_chain.empty())
 		main_chain.insert(main_chain.begin(), smaller_chain[0]);
@@ -187,5 +195,6 @@ std::vector<int> PmergeMe::mergeInsertionSort(std::vector<int>&nb)
 		int pos = findPosition(main_chain, orphan, main_chain.size());
 		main_chain.insert(main_chain.begin() + pos, orphan);
 	}
+	index.clear();
 	return (main_chain);
 }
