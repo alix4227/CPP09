@@ -46,17 +46,6 @@ int PmergeMe::findPosition(std::vector<int>const& main_chain, int smaller, int p
 	return (gauche);
 }
 
-// void PmergeMe::sort_d(std::vector<int>& B, std::vector<int>&index)
-// {
-// 	size_t i = 0;
-// 	std::sort(B.begin(), B.end(), std::greater<int>());
-// 	while (i < B.size())
-// 	{
-// 		index.push_back(B[i]);
-// 		i++;
-// 	}
-// }
-
 bool comparePairs(Pair const& a, Pair const& b)
 {
 	return (a.greater <b.greater);

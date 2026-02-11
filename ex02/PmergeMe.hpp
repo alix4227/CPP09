@@ -31,11 +31,9 @@ class PmergeMe
 	std::vector<int> mergeInsertionSort(std::vector<int>&nb);
 
 	int		findPosition_deque(std::deque<int>const& main_chain, int smaller, int pos_greater);
-	void 	sort_d_deque(std::deque<int>& B, std::deque<int>&index);
 	void	getJacobstalIndexes_deque(std::deque<int>&index, int size);
 
 	int		findPosition(std::vector<int>const& main_chain, int smaller, int pos_greater);
-	void	sort_d(std::vector<int>& B, std::vector<int>&index);
 	void	getJacobstalIndexes(std::vector<int>&index, int size);
 };
 

@@ -9,8 +9,6 @@ int	main(int ac, char**av)
 	}
 	int i = 1;
 	PmergeMe list;
-	
-	std::cout << std::endl;
 	std::vector<int>nb;
 	while (i < ac)
 	{
@@ -22,11 +20,18 @@ int	main(int ac, char**av)
 		nb.push_back(std::atoi(av[i]));
 		i++;
 	}
+	std::vector<int>::iterator it = std::unique(nb.begin(), nb.end());
+	bool hasDoublons = (it != nb.end());
+	if (hasDoublons)
+	{
+		std::cout << "Error: Wrong input(Doublons)" << std::endl;
+		return (1);
+	}
 	printBefore(nb);
 	clock_t begin = clock();
 	std::vector<int>sorted_vector(list.mergeInsertionSort(nb));
 	clock_t end = clock();
-	double elapse_time = double(end - begin) /CLOCKS_PER_SEC;
+	double elapse_time = (double(end - begin) /CLOCKS_PER_SEC) * 1000;
 	printAfter(sorted_vector, ac);
 	std::cout << "Time to process a range of " << ac -1 << " elements with std::vector: " << std::fixed << elapse_time << " us"<< std::endl;
 	std::cout << std::endl;
@@ -42,7 +47,7 @@ int	main(int ac, char**av)
 	begin = clock();
 	std::deque<int>print_chain_deque(list.mergeInsertionSort_deque(n));
 	end = clock();
-	elapse_time = double(end - begin) /CLOCKS_PER_SEC;
+	elapse_time = (double(end - begin) /CLOCKS_PER_SEC) * 1000;
 	printAfter(print_chain_deque, ac);
 	std::cout << "Time to process a range of " << ac -1 << " elements with std::deque: " << std::fixed << elapse_time << " us"<< std::endl;
 	// std::cout << isSorted(print_chain_deque) << std::endl;

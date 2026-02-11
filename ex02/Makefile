@@ -2,7 +2,7 @@
 CC			= c++
 
 # flags
-CFLAGS		= -Wall -Wextra -Werror -std=c++98 -g
+CFLAGS		= -Wall -Wextra -Werror -std=c++98 -O3
 
 # artifacts
 NAME		= PmergeMe
