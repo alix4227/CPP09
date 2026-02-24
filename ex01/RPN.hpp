@@ -19,7 +19,7 @@ class RPN: public std::stack<int>
 {
 	public:
 	
-	typedef typename std::stack<int>::container_type::iterator iterator;
+	typedef std::stack<int>::container_type::iterator iterator;
 	iterator begin();
 	iterator end();
 	int getResult(std::string temp);

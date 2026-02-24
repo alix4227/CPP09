@@ -5,10 +5,11 @@ CC			= c++
 CFLAGS		= -Wall -Wextra -Werror -std=c++98 -g
 
 # artifacts
-NAME		= whatever
+NAME		= RPN
 
 # source files
-SRCS	= main.cpp
+SRCS	= main.cpp\
+			RPN.cpp
 
 # object files
 OBJS	= ${SRCS:.cpp=.o}

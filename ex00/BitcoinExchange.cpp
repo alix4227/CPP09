@@ -23,8 +23,8 @@ void Exchange::fillContainer()
 		size_t pos = line.find(",");
 		if (pos == std::string::npos)
 		{
-			std::cout << "Error: could not open file." << std::endl;
-			return ;
+			std::cout << "Error: could not find comma." << std::endl;
+			continue ;
 		}
 		date = line.substr(0, 10);
 		data[date];
@@ -42,7 +42,8 @@ void Exchange::findRate(std::string date, float valeur)
 	if (date.empty())
 		return ;
 	std::map<std::string, float>::iterator it = data.upper_bound(date);
-	--it;
+	if (it != data.begin())
+		--it;
 	_rate = valeur * it->second;
-	std::cout << date << " => " << "valeur "<< "= " << _rate << std::endl;
+	std::cout << date << " => " << valeur << " = " << _rate << std::endl;
 }

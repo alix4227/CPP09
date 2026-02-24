@@ -8,7 +8,8 @@ CFLAGS		= -Wall -Wextra -Werror -std=c++98 -g
 NAME		= btc
 
 # source files
-SRCS	= main.cpp
+SRCS	= main.cpp\
+		BitcoinExchange.cpp
 
 # object files
 OBJS	= ${SRCS:.cpp=.o}

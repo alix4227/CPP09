@@ -1,10 +1,10 @@
 #include "RPN.hpp"
 
-typename std::stack<int>::container_type::iterator RPN::begin()
+std::stack<int>::container_type::iterator RPN::begin()
 {
 	return (this->c.begin());
 }
-typename std::stack<int>::container_type::iterator RPN::end()
+std::stack<int>::container_type::iterator RPN::end()
 {
 	
 	return (this->c.end());

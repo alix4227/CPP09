@@ -21,7 +21,7 @@ bool check_date(std::string str)
 	std::istringstream check(str);
 	int year;
 	check >> year;
-	if (check.fail() || year < 0)
+	if (check.fail() || year < 0 || year < 2009)
 		return (false);
 
 	size_t pos = str.find("-");
@@ -35,13 +35,14 @@ bool check_date(std::string str)
 		return (false);
 
 	size_t pos1 = str.find_last_of("-");
-	std::string day = str.substr(pos1 + 1, 2);
+	std::string day = str.substr(pos1 + 1);
 	std::istringstream check2(day);
 	int jour;
 	check2 >> jour;
 	if (check2.fail() || !check2.eof())
 		return (false);
-	if (jour < 1 || jour > 31)
+	int daysInMonth[] = {31,28,31,30,31,30,31,31,30,31,30,31};
+	if (jour < 1 || jour > daysInMonth[mois - 1] || (year <= 2009 && mois == 01 && jour < 2))
 		return (false);
 	return (true);
 }
@@ -50,12 +51,17 @@ bool check_value(std::string str)
 {
 	if (str.empty() || isAllSpaces(str))
 	{
-		std::cout << "Error: Bad input" << std::endl;
+		std::cout << "Error: Bad input(Allspaces)" << std::endl;
 		return (false);
 	}
 	std::istringstream check(str);
 	float value;
 	check >> value;
+	if (check.fail() || !check.eof())
+	{
+		std::cout << "Error: Bad input(Not a float)" << std::endl;
+		return (false);
+	}
 	if (value < 0 || value > 1000)
 	{
 		if (value < 0)
@@ -69,40 +75,44 @@ bool check_value(std::string str)
 
 int main (int ac, char **av)
 {
-	Exchange rate;
-	rate.fillContainer();
-	std::string line;
-	std::string date;
-	std::string value;
 	if (ac != 2)
 	{
 		std::cerr << "Error: could not open file." << std::endl;
 		return (0);
 	}	
+
+	Exchange rate;
+	rate.fillContainer();
+	std::string line;
+	std::string date;
+	std::string value;
+	size_t pos;
 	std::ifstream file(av[1]);
 	if (!file.is_open())
 	{
 		std::cerr << "Error: could not open file." << std::endl;	
 		return (0);
 	}
-	getline(file, line);
 	while (getline(file, line))
 	{
+		pos = line.find("date | value");
+		if (pos != std::string::npos)
+			continue ;
 		if (line.empty())
 			continue ;
-		size_t pos = line.find("|");
-		if (pos == std::string::npos)
-		{
-			std::cout << "Error: could not open file." << std::endl;
-			return (0);
-		}
-		date = line.substr(0, 10);
+		pos = line.find(" | ");
+		date = line.substr(0, pos);
 		if (!check_date(date))
 		{
-			std::cout << "Error: could not open file." << std::endl;
-			return (0);
+			std::cout << "Error: bad input => " << date << std::endl;
+			continue;
 		}
-		value = line.substr(pos + 1);
+		if (pos == std::string::npos)
+		{
+			std::cout << "Error: Wrong Format (date | value)" << std::endl;
+			continue ;
+		}
+		value = line.substr(pos + 3);
 		if (!check_value(value))
 			continue ;
 		std::istringstream check(value);
