@@ -4,17 +4,14 @@ Exchange::Exchange(){};
 
 Exchange::~Exchange(){};
 
-void Exchange::fillContainer()
+bool Exchange::fillContainer()
 {
 	std::string line;
 	std::string date;
 	std::string value;
 	std::ifstream file("data.csv");
 	if (!file.is_open())
-	{
-		std::cerr << "Error: could not open file." << std::endl;	
-		return ;
-	}
+		return (false);
 	getline(file, line);
 	while (getline(file, line))
 	{
@@ -22,19 +19,21 @@ void Exchange::fillContainer()
 			continue ;
 		size_t pos = line.find(",");
 		if (pos == std::string::npos)
-		{
-			std::cout << "Error: could not find comma." << std::endl;
-			continue ;
-		}
+			return (false);
 		date = line.substr(0, 10);
+		if (!check_date(date))
+			return (false);
 		data[date];
-		
+
 		value = line.substr(pos + 1);
+		if (!check_value_data(value))
+			return (false);
 		std::istringstream check(value);
 		float valeur;
 		check >> valeur;
 		data[date] = valeur;
 	}
+	return (true);
 }
 
 void Exchange::findRate(std::string date, float valeur)
@@ -46,4 +45,19 @@ void Exchange::findRate(std::string date, float valeur)
 		--it;
 	_rate = valeur * it->second;
 	std::cout << date << " => " << valeur << " = " << _rate << std::endl;
+}
+
+bool check_value_data(std::string str)
+{
+	if (str.empty() || isAllSpaces(str))
+	
+		return (false);
+	std::istringstream check(str);
+	float value;
+	check >> value;
+	if (check.fail() || !check.eof())
+		return (false);
+	if (value < 0 || value > 5000000)
+		return (false);
+	return(!check.fail() && check.eof());
 }

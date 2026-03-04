@@ -20,11 +20,14 @@ class Exchange
 	public:
 	Exchange();
 	~Exchange();
-	void fillContainer();
+	bool fillContainer();
 	void findRate(std::string date, float valeur);
 
 	private:
 	std::map<std::string, float>data;
 	float _rate;
 };
+bool check_date(std::string str);
+bool isAllSpaces(std::string str);
+bool check_value_data(std::string str);
 #endif

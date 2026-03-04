@@ -44,6 +44,8 @@ bool check_date(std::string str)
 	int daysInMonth[] = {31,28,31,30,31,30,31,31,30,31,30,31};
 	if (jour < 1 || jour > daysInMonth[mois - 1] || (year <= 2009 && mois == 01 && jour < 2))
 		return (false);
+    if ((year >= 2022 && mois >= 03 && jour > 29))
+		return (false);
 	return (true);
 }
 
@@ -62,7 +64,7 @@ bool check_value(std::string str)
 		std::cout << "Error: Bad input(Not a float)" << std::endl;
 		return (false);
 	}
-	if (value < 0 || value > 1000)
+	if (value < 0 || value > 50000)
 	{
 		if (value < 0)
 			std::cout << "Error: Not a positive number" << std::endl;
@@ -82,7 +84,12 @@ int main (int ac, char **av)
 	}	
 
 	Exchange rate;
-	rate.fillContainer();
+
+	if (!rate.fillContainer())
+	{
+		std::cerr << "Error: could not open file (data.csv)" << std::endl;
+		return (0);
+	}
 	std::string line;
 	std::string date;
 	std::string value;
@@ -91,6 +98,11 @@ int main (int ac, char **av)
 	if (!file.is_open())
 	{
 		std::cerr << "Error: could not open file." << std::endl;	
+		return (0);
+	}
+	if (file.peek() == EOF)
+	{
+		std::cerr << "Error: file empty." << std::endl;	
 		return (0);
 	}
 	while (getline(file, line))
